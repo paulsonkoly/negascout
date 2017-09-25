@@ -9,13 +9,19 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Paul Sonkoly"]
   spec.email         = ["sonkoly.pal@gmail.com"]
 
-  spec.summary       = %q{TODO: Write a short summary, because Rubygems requires one.}
-  spec.description   = %q{TODO: Write a longer description or delete this line.}
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.summary       = %q{Negascout search (for two player games)}
+  spec.description   = <<-EOS
+Negascout search with a few additional bells and whistles. We support callbacks
+for transposition cache lookup, or an option to fall back to alpha-beta (don't
+do the null window searches). The latter can be useful for a "shallow search
+first" heuristic.
+EOS
+  spec.homepage      = "http://github.com/phaul/negascout"
   spec.license       = "MIT"
 
-  # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
-  # to allow pushing to a single host or delete this section to allow pushing to any host.
+  # Prevent pushing this gem to RubyGems.org. To allow pushes either set the
+  # 'allowed_push_host' to allow pushing to a single host or delete this
+  # section to allow pushing to any host.
   if spec.respond_to?(:metadata)
     spec.metadata['allowed_push_host'] = "TODO: Set to 'http://mygemserver.com'"
   else
