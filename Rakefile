@@ -6,12 +6,12 @@ RSpec::Core::RakeTask.new(:spec)
 
 YARD::Rake::YardocTask.new do |t|
   t.files = ['lib/*.rb']
-  t.options = ['--no-private']
+  t.options = ['--no-private', '--output-dir=docs']
   t.stats_options = ['--no-private', '--list-undoc']
 end
 
 task :clobber do
-  rm_rf 'doc'
+  rm_rf 'docs'
 end
 
 task :default => :spec
