@@ -1,7 +1,7 @@
 require "spec_helper"
 
 class NodeDouble
-  def initialize(mode = :shuffle, terminate_at = 10000)
+  def initialize(terminate_at: 10000)
     @number = 0
     @depth = 0
     @terminate_at = terminate_at
@@ -43,6 +43,17 @@ RSpec.describe Negascout do
     it "returns the correct score" do
       result = Negascout.negascout(node, 10, -100, 100, 1)
       expect(result.score).to be 20
+    end
+
+    it "returns the correct best line" do
+      result = Negascout.negascout(node, 10, -100, 100, 1)
+      expect(result.best_line).to eq [3,1].cycle.take(result.best_line.length)
+    end
+
+    it "stops at terminal nodes" do
+      only_three = NodeDouble.new terminate_at: 3
+      result = Negascout.negascout(only_three, 10, -100, 100, 1)
+      expect(result.score).to be 7
     end
 
     def self.it_doesnt_go_beyond_depth(depth_limit)
