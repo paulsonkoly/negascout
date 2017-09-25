@@ -38,10 +38,15 @@ RSpec.describe Negascout do
   end
 
   describe '#negascout' do
+    let(:node) { NodeDouble.new }
+
+    it "returns the correct score" do
+      result = Negascout.negascout(node, 10, -100, 100, 1)
+      expect(result.score).to be 20
+    end
+
     def self.it_doesnt_go_beyond_depth(depth_limit)
       context "with the depth limited to #{depth_limit}" do
-        let(:node) { NodeDouble.new }
-
         it "doesn't go beyond depth limit" do
           result = Negascout.negascout(node, depth_limit, -100, 100, 1)
           expect(result.best_line.length).to be <= depth_limit
