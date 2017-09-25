@@ -39,7 +39,7 @@ RSpec.describe Negascout do
 
   describe '#negascout' do
     def self.it_doesnt_go_beyond_depth(depth_limit)
-      context "with the depth limited to #depth_limit" do
+      context "with the depth limited to #{depth_limit}" do
         let(:node) { NodeDouble.new }
 
         it "doesn't go beyond depth limit" do
