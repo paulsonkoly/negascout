@@ -41,4 +41,5 @@ EOS
   spec.add_development_dependency "rspec", "~> 3.0"
   spec.add_development_dependency "yard", "~> 0.9"
   spec.add_development_dependency "simplecov"
+  spec.add_development_dependency "byebug"
 end
