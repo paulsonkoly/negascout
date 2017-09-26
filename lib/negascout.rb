@@ -89,6 +89,8 @@ module Negascout
 
   extend self
 
+  DEFAULT_OPTIONS = { null_window: true }
+
   ##
   # Negascout search function
   #
@@ -98,19 +100,18 @@ module Negascout
   # @param beta the initial beta value
   # @param colour the +1 if the next player to move tries to maximize the
   #   evaluation, -1 if minimize
+  # @param opts see {DEFAULT_OPTIONS} for available options
   # @return [SearchResult] the best line and the evaluation
   #
   def negascout(node,
                 depth = 10,
                 alpha = (-Float::Infinity),
                 beta = Float::Infinity,
-                colour = 1)
-    with_cache(node, depth, colour) do
-      # terminal node
-      return SearchResult.new(colour * node.evaluate) if depth.zero? ||
-                                                         node.terminal?
-      maximize_alpha(node, depth, alpha, beta, colour)
-    end
+                colour = 1,
+                opts = {})
+    @options ||= DEFAULT_OPTIONS
+    @options.merge!(opts)
+    negascout_intern(node, depth, alpha, beta, colour)
   end
 
   ##
@@ -147,6 +148,15 @@ module Negascout
 
   private
 
+  def negascout_intern(node, depth, alpha, beta, colour)
+    with_cache(node, depth, colour) do
+      # terminal node
+      return SearchResult.new(colour * node.evaluate) if depth.zero? ||
+                                                         node.terminal?
+      maximize_alpha(node, depth, alpha, beta, colour)
+    end
+  end
+
   def with_cache(node, depth, colour)
     value = cache_lookup(node, depth)
     return colour * value if value
@@ -179,13 +189,13 @@ module Negascout
   def search(first, child, depth, alpha, beta, colour)
     depth -= 1
     colour *= -1
-    if first
-      negascout(child, depth, -beta, -alpha, colour)
+    if first || ! @options[:null_window]
+      negascout_intern(child, depth, -beta, -alpha, colour)
     else
-      result = negascout(child, depth, -alpha - 1, -alpha, colour)
+      result = negascout_intern(child, depth, -alpha - 1, -alpha, colour)
       score = - result.score
       if alpha < score && score < beta
-        negascout(child, depth, -beta, -score, colour)
+        negascout_intern(child, depth, -beta, -score, colour)
       else
         result
       end
