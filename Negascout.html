@@ -81,14 +81,16 @@
   
   <dl>
     <dt>Included in:</dt>
-    <dd><span class='object_link'><a href="" title="Negascout (module)">Negascout</a></span></dd>
+    <dd><span class='object_link'><a href="" title="Negascout (module)">Negascout</a></span>, <span class='object_link'><a href="Negascout/Heuristics.html" title="Negascout::Heuristics (module)">Heuristics</a></span></dd>
   </dl>
   
 
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/negascout.rb</dd>
+    <dd>lib/negascout.rb<span class="defines">,<br />
+  lib/negascout/heuristics.rb</span>
+</dd>
   </dl>
   
 </div>
@@ -164,12 +166,42 @@ if the cached value is “shallower” than the current evaluation.</p>
 <p class="children">
   
     
+      <strong class="modules">Modules:</strong> <span class='object_link'><a href="Negascout/Heuristics.html" title="Negascout::Heuristics (module)">Heuristics</a></span>
+    
   
     
       <strong class="classes">Classes:</strong> <span class='object_link'><a href="Negascout/SearchResult.html" title="Negascout::SearchResult (class)">SearchResult</a></span>
     
   
 </p>
+
+  <h2>Constant Summary</h2>
+  <dl class="constants">
+    
+      <dt id="DEFAULT_OPTIONS-constant" class="">DEFAULT_OPTIONS =
+        <div class="docstring">
+  <div class="discussion">
+    
+<p>Default options are used unless option is given</p>
+<ul><li>
+<p><code>null_window</code> : # apply null window or fall back to normal
+alpha-beta</p>
+</li><li>
+<p><code>shallow_depth</code> : used in <span class='object_link'><a href="Negascout/Heuristics.html" title="Negascout::Heuristics (module)">Heuristics</a></span>. Note that 0
+means 1 level as we implicitly descend to the immediate children</p>
+</li></ul>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+      </dt>
+      <dd><pre class="code"><span class='lbrace'>{</span> <span class='label'>null_window:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>shallow_depth:</span> <span class='int'>0</span> <span class='rbrace'>}</span></pre></dd>
+    
+  </dl>
 
 
 
@@ -236,7 +268,31 @@ if the cached value is “shallower” than the current evaluation.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#negascout-instance_method" title="#negascout (instance method)">#<strong>negascout</strong>(node, depth = 10, alpha = (-Float::Infinity), beta = Float::Infinity, colour = 1)  &#x21d2; SearchResult </a>
+      <a href="#moves-instance_method" title="#moves (instance method)">#<strong>moves</strong>(node, _depth, _alpha, _beta, _colour)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Callback for generating move list based on depth, alpha or beta.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#negascout-instance_method" title="#negascout (instance method)">#<strong>negascout</strong>(node, depth = 10, alpha = (-Float::Infinity), beta = Float::Infinity, colour = 1, opts = {})  &#x21d2; SearchResult </a>
     
 
     
@@ -357,12 +413,12 @@ also be used as a measure of information reliability.</p>
       <pre class="lines">
 
 
-129
-130
-131</pre>
+135
+136
+137</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/negascout.rb', line 129</span>
+      <pre class="code"><span class="info file"># File 'lib/negascout.rb', line 135</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_cache_lookup'>cache_lookup</span><span class='lparen'>(</span><span class='id identifier rubyid__node'>_node</span><span class='comma'>,</span> <span class='id identifier rubyid__depth'>_depth</span><span class='rparen'>)</span>
   <span class='kw'>nil</span>
@@ -461,10 +517,10 @@ search.</p>
       <pre class="lines">
 
 
-146</pre>
+152</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/negascout.rb', line 146</span>
+      <pre class="code"><span class="info file"># File 'lib/negascout.rb', line 152</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_cache_update'>cache_update</span><span class='lparen'>(</span><span class='id identifier rubyid__node'>_node</span><span class='comma'>,</span> <span class='id identifier rubyid__depth'>_depth</span><span class='comma'>,</span> <span class='id identifier rubyid__deep_eval'>_deep_eval</span><span class='rparen'>)</span><span class='semicolon'>;</span> <span class='kw'>end</span></pre>
     </td>
@@ -473,9 +529,59 @@ search.</p>
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="moves-instance_method">
+  
+    #<strong>moves</strong>(node, _depth, _alpha, _beta, _colour)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+  <div class="note notetag">
+    <strong>Note:</strong>
+    <div class='inline'>
+<p>Default implementation just returns <code>node.moves</code></p>
+</div>
+  </div>
+
+
+<p>Callback for generating move list based on depth, alpha or beta. Useful for
+search based heuristics, see <span class='object_link'><a href="Negascout/Heuristics.html" title="Negascout::Heuristics (module)">Heuristics</a></span>.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+160
+161
+162</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/negascout.rb', line 160</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_moves'>moves</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid__depth'>_depth</span><span class='comma'>,</span> <span class='id identifier rubyid__alpha'>_alpha</span><span class='comma'>,</span> <span class='id identifier rubyid__beta'>_beta</span><span class='comma'>,</span> <span class='id identifier rubyid__colour'>_colour</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_node'>node</span><span class='period'>.</span><span class='id identifier rubyid_moves'>moves</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="negascout-instance_method">
   
-    #<strong>negascout</strong>(node, depth = 10, alpha = (-Float::Infinity), beta = Float::Infinity, colour = 1)  &#x21d2; <tt><span class='object_link'><a href="Negascout/SearchResult.html" title="Negascout::SearchResult (class)">SearchResult</a></span></tt> 
+    #<strong>negascout</strong>(node, depth = 10, alpha = (-Float::Infinity), beta = Float::Infinity, colour = 1, opts = {})  &#x21d2; <tt><span class='object_link'><a href="Negascout/SearchResult.html" title="Negascout::SearchResult (class)">SearchResult</a></span></tt> 
   
 
   
@@ -582,6 +688,24 @@ minimize</p>
       
     </li>
   
+    <li>
+      
+        <span class='name'>opts</span>
+      
+      
+        <span class='type'></span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>see <span class='object_link'><a href="#DEFAULT_OPTIONS-constant" title="Negascout::DEFAULT_OPTIONS (constant)">DEFAULT_OPTIONS</a></span> for available options</p>
+</div>
+      
+    </li>
+  
 </ul>
 
 <p class="tag_title">Returns:</p>
@@ -609,33 +733,29 @@ minimize</p>
       <pre class="lines">
 
 
-103
-104
-105
-106
-107
-108
-109
-110
 111
 112
 113
-114</pre>
+114
+115
+116
+117
+118
+119
+120</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/negascout.rb', line 103</span>
+      <pre class="code"><span class="info file"># File 'lib/negascout.rb', line 111</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_negascout'>negascout</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span>
               <span class='id identifier rubyid_depth'>depth</span> <span class='op'>=</span> <span class='int'>10</span><span class='comma'>,</span>
               <span class='id identifier rubyid_alpha'>alpha</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='op'>-</span><span class='const'>Float</span><span class='op'>::</span><span class='const'>Infinity</span><span class='rparen'>)</span><span class='comma'>,</span>
               <span class='id identifier rubyid_beta'>beta</span> <span class='op'>=</span> <span class='const'>Float</span><span class='op'>::</span><span class='const'>Infinity</span><span class='comma'>,</span>
-              <span class='id identifier rubyid_colour'>colour</span> <span class='op'>=</span> <span class='int'>1</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_with_cache'>with_cache</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_depth'>depth</span><span class='comma'>,</span> <span class='id identifier rubyid_colour'>colour</span><span class='rparen'>)</span> <span class='kw'>do</span>
-    <span class='comment'># terminal node
-</span>    <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="Negascout/SearchResult.html" title="Negascout::SearchResult (class)">SearchResult</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_colour'>colour</span> <span class='op'>*</span> <span class='id identifier rubyid_node'>node</span><span class='period'>.</span><span class='id identifier rubyid_evaluate'>evaluate</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_depth'>depth</span><span class='period'>.</span><span class='id identifier rubyid_zero?'>zero?</span> <span class='op'>||</span>
-                                                       <span class='id identifier rubyid_node'>node</span><span class='period'>.</span><span class='id identifier rubyid_terminal?'>terminal?</span>
-    <span class='id identifier rubyid_maximize_alpha'>maximize_alpha</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_depth'>depth</span><span class='comma'>,</span> <span class='id identifier rubyid_alpha'>alpha</span><span class='comma'>,</span> <span class='id identifier rubyid_beta'>beta</span><span class='comma'>,</span> <span class='id identifier rubyid_colour'>colour</span><span class='rparen'>)</span>
-  <span class='kw'>end</span>
+              <span class='id identifier rubyid_colour'>colour</span> <span class='op'>=</span> <span class='int'>1</span><span class='comma'>,</span>
+              <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='ivar'>@options</span> <span class='op'>||=</span> <span class='const'><span class='object_link'><a href="#DEFAULT_OPTIONS-constant" title="Negascout::DEFAULT_OPTIONS (constant)">DEFAULT_OPTIONS</a></span></span>
+  <span class='ivar'>@options</span><span class='period'>.</span><span class='id identifier rubyid_merge!'>merge!</span><span class='lparen'>(</span><span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_negascout_intern'>negascout_intern</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_depth'>depth</span><span class='comma'>,</span> <span class='id identifier rubyid_alpha'>alpha</span><span class='comma'>,</span> <span class='id identifier rubyid_beta'>beta</span><span class='comma'>,</span> <span class='id identifier rubyid_colour'>colour</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -647,7 +767,7 @@ minimize</p>
 </div>
 
       <div id="footer">
-  Generated on Tue Sep 26 08:13:50 2017 by
+  Generated on Thu Sep 28 09:00:50 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.9 (ruby-2.4.2).
 </div>
