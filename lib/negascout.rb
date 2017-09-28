@@ -89,7 +89,12 @@ module Negascout
 
   extend self
 
-  DEFAULT_OPTIONS = { null_window: true }
+  ##
+  # Default options are used unless option is given
+  # * +null_window+ : # apply null window or fall back to normal alpha-beta
+  # * +shallow_depth+ : used in {Negascout::Heuristics}. Note that 0 means 1
+  #   level as we implicitly descend to the immediate children
+  DEFAULT_OPTIONS = { null_window: true, shallow_depth: 0 }
 
   ##
   # Negascout search function
@@ -146,6 +151,17 @@ module Negascout
   #
   def cache_update(_node, _depth, _deep_eval); end
 
+  ##
+  # @api callback
+  #
+  # Callback for generating move list based on depth, alpha or beta. Useful for
+  # search based heuristics, see {Negascout::Heuristics}.
+  # @note Default implementation just returns +node.moves+
+  def moves(node, _depth, _alpha, _beta, _colour)
+    node.moves
+  end
+
+
   private
 
   def negascout_intern(node, depth, alpha, beta, colour)
@@ -168,7 +184,7 @@ module Negascout
 
   def maximize_alpha(node, depth, alpha, beta, colour)
     best_result = SearchResult.new alpha
-    node.moves.each.with_index do |move, ix|
+    moves(node, depth, alpha, beta, colour).each.with_index do |move, ix|
       result = with_move(node, move) do
         search(ix.zero?, node, depth, alpha, beta, colour)
       end
@@ -183,7 +199,9 @@ module Negascout
 
   def with_move(node, move)
     node.move(move)
-    yield.tap { node.unmove(move) }
+    yield
+  ensure
+    node.unmove(move)
   end
 
   def search(first, child, depth, alpha, beta, colour)

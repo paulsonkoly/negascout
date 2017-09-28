@@ -6,7 +6,7 @@ RSpec::Core::RakeTask.new(:spec)
 
 namespace :yard do
   YARD::Rake::YardocTask.new do |t|
-    t.files = ['lib/*.rb']
+    t.files = Rake::FileList.new('lib/**/*.rb').exclude 'lib/negascout/version.rb'
     t.options = ['--no-private']
     t.stats_options = ['--no-private', '--list-undoc']
   end

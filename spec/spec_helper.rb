@@ -6,6 +6,7 @@ end
 
 require "bundler/setup"
 require "negascout"
+require 'support/node_double'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
