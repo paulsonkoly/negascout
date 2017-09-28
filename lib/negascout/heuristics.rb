@@ -4,7 +4,7 @@ module Negascout
   # Provides a shallow search first heuristics for the normal negascout.
   #
   # The normal negascout search is used apart from reordering the nodes first
-  # with a shallow alpha beta search first. The shallow depth is configurable.
+  # with a shallow alpha beta search. The shallow depth is configurable.
   module Heuristics
     include ::Negascout
 
